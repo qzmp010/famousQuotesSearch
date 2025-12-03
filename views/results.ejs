@@ -1,49 +1,67 @@
 <%- include("partials/header.ejs") %>
 
     <body>
-        <a class="btn btn-primary" href="/">Back to Search</a>
-        <h1> Quotes Found </h1>
+        <div class="container py-5">
 
-        <% for (i of quotes) { %>
+            <a class="btn btn-primary mb-4" href="/">Back to Search</a>
 
-            <%= i.quote %> <br>
-                -<em>
-                    <a class="authorLink" href="#" id="<%=i.authorId%>">
-                        <%= i.firstName %>
-                            <%= i.lastName %>
-                    </a>
-                </em>
-                <br>
-                <span><%= i.category %></span>
-                <span>Likes: <%= i.likes %></span>
-                <br><br>
+            <% if (!quotes.length) { %>
+                <h1 class="text-center mb-5">No Quotes Found</h1>
+                <% } else { %>
+                    <h1 class="text-center mb-5">Quotes Found</h1>
 
-                <% } %>
+                    <% for (i of quotes) { %>
+                        <div class="card mb-4 shadow-sm">
+                            <div class="card-body">
+                                <p class="card-text mb-2">
+                                    "<%= i.quote %>"
+                                </p>
+                                <p class="mb-3">
+                                    - <em>
+                                        <a class="authorLink text-decoration-none" href="#" id="<%=i.authorId%>">
+                                            <%= i.firstName %>
+                                                <%= i.lastName %>
+                                        </a>
+                                    </em>
+                                </p>
 
-                    <!-- Modal -->
-                    <div class="modal fade" id="authorModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Author Information</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div id="authorInfo"></div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                </div>
+                                <span class="badge bg-info text-dark me-2">
+                                    <%= i.category %>
+                                </span>
+                                <span class="badge bg-secondary">
+                                    Likes: <%= i.likes %>
+                                </span>
                             </div>
                         </div>
+                    <% } %>
+
+            <!-- Modal -->
+            <div class="modal fade" id="authorModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content text-center">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Author Information</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="authorInfo"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Close</button>
+                        </div>
                     </div>
+                </div>
+            </div>
+            <% } %>
+        </div>
 
-                    <%- include('partials/footer.ejs') %>
 
-                        <script src="/js/scripts.js"></script>
+        <%- include('partials/footer.ejs') %>
+
+        <script src="/js/scripts.js"></script>
     </body>
 
     </html>

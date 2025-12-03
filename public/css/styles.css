@@ -1,6 +1,9 @@
 body {
     background-color: #CBE2F6;
-    text-align: center;
+}
+
+#quoteFinder {
+    max-width: 540px;
 }
 
 .cardImg {

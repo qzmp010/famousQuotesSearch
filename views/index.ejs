@@ -1,62 +1,84 @@
 <%- include('partials/header.ejs') %>
 
     <body>
+        <div id="quoteFinder" class="container py-5">
+            <h1 class="text-center mb-5">Quote Finder</h1>
 
-        <h1> Quote Finder </h1>
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <form action="/searchByKeyword">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Keyword:</label>
+                            <input required type="text" name="keyword" class="form-control">
+                        </div>
+                        <button class="btn btn-primary">Search by Keyword</button>
+                    </form>
+                </div>
+            </div>
 
-            <form action="/searchByKeyword">
-                <label>
-                    Keyword:
-                    <input required type="text" name="keyword">
-                </label>
-                <button>Search by Keyword</button>
-            </form>
-            <br>
-            <form action="/searchByAuthor">
-                <label>
-                Author:
-                    <select name="authorId">
-                        <% for (author of authors) { %>
-                            <option value="<%=author.authorId%>">
-                                <%=author.firstName%> <%=author.lastName%>
-                            </option>
-                            <% } %>
-                    </select>
-                </label>
-                <button>Search by Author</button>
-            </form>
-            <br>
-            <form action="/searchByCategory">
-                Category:
-                <select name="categoryName">
-                    <% for (c of categories) { %>
-                        <option value="<%=c.category%>">
-                            <%=c.category%>
-                        </option>
-                        <% } %>
-                </select>
-                <button>Search by Category</button>
-            </form>
-            <br>
-            <form action="/searchByLikes">
-                <fieldset>
-                <legend>Likes: </legend>
-                <label>
-                    Min:
-                    <input required type="number" min="0" max="<%=maxLikes%>" name="minLikes">
-                </label>
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <form action="/searchByAuthor">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Author:</label>
+                            <select name="authorId" class="form-select">
+                                <% for (author of authors) { %>
+                                    <option value="<%=author.authorId%>">
+                                        <%=author.firstName%>
+                                            <%=author.lastName%>
+                                    </option>
+                                    <% } %>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary">Search by Author</button>
+                    </form>
+                </div>
+            </div>
 
-                <label>
-                    Max:
-                    <input required type="number" min="0" max="<%=maxLikes%>" name="maxLikes">
-                </label>
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <form action="/searchByCategory">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Category:</label>
+                            <select name="categoryName" class="form-select">
+                                <% for (c of categories) { %>
+                                    <option value="<%=c.category%>">
+                                        <%=c.category%>
+                                    </option>
+                                    <% } %>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary">Search by Category</button>
+                    </form>
+                </div>
+            </div>
 
-                <button>Search by Likes</button>
-                </fieldset>
-            </form>
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <form action="/searchByLikes">
+                        <fieldset class="border p-3 rounded">
+                            <legend class="float-none w-auto px-2 fw-bold">Likes</legend>
 
-            <%- include('partials/footer.ejs') %>
+                            <div class="mb-3">
+                                <label class="form-label">Min:</label>
+                                <input required type="number" min="0" max="<%=maxLikes%>" name="minLikes"
+                                    class="form-control">
+                            </div>
 
+                            <div class="mb-3">
+                                <label class="form-label">Max:</label>
+                                <input required type="number" min="0" max="<%=maxLikes%>" name="maxLikes"
+                                    class="form-control">
+                            </div>
+
+                            <button class="btn btn-primary">Search by Likes</button>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <%- include('partials/footer.ejs') %>
     </body>
 
-    </html>
+</html>
