@@ -3,24 +3,57 @@
     <body>
 
         <h1> Quote Finder </h1>
-        <%- include('partials/nav.ejs') %>
+
             <form action="/searchByKeyword">
-                Keyword:
-                <input type="text" name="keyword">
+                <label>
+                    Keyword:
+                    <input required type="text" name="keyword">
+                </label>
                 <button>Search by Keyword</button>
             </form>
             <br>
             <form action="/searchByAuthor">
-                <select name="authorId">
-                    <% for (author of authors) { %>
-                        <option value="<%=author.authorId%>">
-                            <%=author.firstName%> <%=author.lastName%>
+                <label>
+                Author:
+                    <select name="authorId">
+                        <% for (author of authors) { %>
+                            <option value="<%=author.authorId%>">
+                                <%=author.firstName%> <%=author.lastName%>
+                            </option>
+                            <% } %>
+                    </select>
+                </label>
+                <button>Search by Author</button>
+            </form>
+            <br>
+            <form action="/searchByCategory">
+                Category:
+                <select name="categoryName">
+                    <% for (c of categories) { %>
+                        <option value="<%=c.category%>">
+                            <%=c.category%>
                         </option>
                         <% } %>
                 </select>
-                <button>Search by Author</button>
+                <button>Search by Category</button>
             </form>
+            <br>
+            <form action="/searchByLikes">
+                <fieldset>
+                <legend>Likes: </legend>
+                <label>
+                    Min:
+                    <input required type="number" min="0" max="<%=maxLikes%>" name="minLikes">
+                </label>
 
+                <label>
+                    Max:
+                    <input required type="number" min="0" max="<%=maxLikes%>" name="maxLikes">
+                </label>
+
+                <button>Search by Likes</button>
+                </fieldset>
+            </form>
 
             <%- include('partials/footer.ejs') %>
 

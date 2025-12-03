@@ -21,16 +21,27 @@ const pool = mysql.createPool({
 
 //routes
 app.get('/', async (req, res) => {
-  let sql = `SELECT authorId, firstName, lastName
+  let sqlAuthor = `SELECT authorId, firstName, lastName
              FROM q_authors
              ORDER BY lastName`;
-  const [rows] = await pool.query(sql);
-  res.render('index', { "authors": rows });
+  let sqlCategory = `SELECT DISTINCT category
+                     FROM q_quotes
+                     ORDER BY category`;
+  let sqlMaxLikes = `SELECT MAX(likes) AS likes
+                     FROM q_quotes`;
+  const [rowsAuthor] = await pool.query(sqlAuthor);
+  const [rowsCategory] = await pool.query(sqlCategory);
+  const [rowsMaxLikes] = await pool.query(sqlMaxLikes);
+  res.render('index', { 
+    "authors": rowsAuthor,
+    "categories": rowsCategory,
+    "maxLikes": rowsMaxLikes[0].likes,
+  });
 });
 
 app.get('/searchByKeyword', async (req, res) => {
   let keyword = req.query.keyword;
-  let sql = `SELECT quote, authorId, firstName, lastName
+  let sql = `SELECT quote, authorId, firstName, lastName, category, likes
              FROM q_quotes
              NATURAL JOIN q_authors
              WHERE quote LIKE ?`;
@@ -41,7 +52,7 @@ app.get('/searchByKeyword', async (req, res) => {
 
 app.get('/searchByAuthor', async (req, res) => {
   let userAuthorId = req.query.authorId;
-  let sql = `SELECT quote, authorId, firstName, lastName
+  let sql = `SELECT quote, authorId, firstName, lastName, category, likes
              FROM q_quotes
              NATURAL JOIN q_authors
              WHERE authorId = ?`;
@@ -57,6 +68,29 @@ app.get('/api/author/:id', async (req, res) => {
              WHERE authorId = ?`;           
   let [rows] = await pool.query(sql, [authorId]);
   res.send(rows)
+});
+
+app.get('/searchByCategory', async (req, res) => {
+  let userCategory = req.query.categoryName;
+  let sql = `SELECT quote, authorId, firstName, lastName, category, likes
+             FROM q_quotes
+             NATURAL JOIN q_authors
+             WHERE category = ?`;
+  let sqlParams = [userCategory];
+  const [rows] = await pool.query(sql, sqlParams);
+  res.render("results", { "quotes": rows });
+});
+
+app.get('/searchByLikes', async (req, res) => {
+  let minLikes = req.query.minLikes;
+  let maxLikes = req.query.maxLikes;
+  let sql = `SELECT quote, authorId, firstName, lastName, category, likes
+             FROM q_quotes
+             NATURAL JOIN q_authors
+             WHERE likes BETWEEN ? AND ?`;
+  let sqlParams = [minLikes, maxLikes];
+  const [rows] = await pool.query(sql, sqlParams);
+  res.render("results", { "quotes": rows });
 });
 
 

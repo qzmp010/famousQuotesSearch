@@ -1,5 +1,5 @@
 //Event listeners
-let authorLinks = document.querySelectorAll("a");
+let authorLinks = document.querySelectorAll("authorLink");
 for (authorLink of authorLinks) {
     authorLink.addEventListener("click", getAuthorInfo);
 }
